@@ -17,6 +17,7 @@ const LayoutPage = () => {
   const { pathname } = useLocation()
   const { userStore, loginStore, channelStore } = useStore()
 
+  //获取用户数据，加载频道列表
   useEffect(() => {
     try {
       userStore.getUserInfo()
@@ -69,6 +70,7 @@ const LayoutPage = () => {
           </Menu>
         </Sider>
         <Layout className="layout-content" style={{ padding: 20 }}>
+          {/* 二级路由出口 */}
           <Outlet />
         </Layout>
       </Layout>

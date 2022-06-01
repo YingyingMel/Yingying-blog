@@ -20,26 +20,28 @@ import { useStore } from '@/store'
 import { useEffect, useRef, useState } from 'react'
 import { http } from '@/utils'
 
-const { Option } = Select
+
 
 const Publish = () => {
+
+  const { Option } = Select
   //导入频道列表
   const { channelStore } = useStore()
-
-  //图片个数根据按钮适配
-  //声明一个暂存仓库
-  const fileListRef = useRef([])
-
 
 
   //上传图片成功回调
   //fileList存放上传图片成功后返回的图片url，设置fileList初始值为空，当执行upload后，
   //action动作发起请求，并有res返回，res里也有fileList属性，把该属性解构出来，提取url
+  //声明fileList来存储和渲染上传图片成功后返回的url，赋值给<upload>里的fileList属性
   const [fileList, setFileList] = useState([])
+
+  //声明一个暂存仓库来存取三图url
+  const fileListRef = useRef([])
+
   const onUploadChange = ({ fileList }) => { //直接从res中解构fileList
     console.log(fileList)
     const formatList = fileList.map(file => {
-      //上传完毕，做数据处理
+      //上传完毕，提取数据
       if (file.response) {
         return {
           url: file.response.data.url //提取response里的url,其他信息不要
@@ -52,7 +54,7 @@ const Publish = () => {
     //会打印3次，percent: 0，event: ProgressEvent，percent: 100
     //最后一次打印的res里才有file.response.data.url
     setFileList(formatList)
-    //上传图片时，将所有图片url暂时存储到 fileListRef 中
+    //这样setFileList，fileList里每次只能存一个url, 存三图时前两个图的url会被第三个图的url覆盖，所以需要声明一个临时变量来暂存所有url
     fileListRef.current = formatList
   }
 
@@ -65,17 +67,18 @@ const Publish = () => {
 
     if (e.target.value === 1) { //单图，只展示一张
       const firstImg = fileListRef.current ? fileListRef.current[0] : []
-      setFileList([firstImg])
+      setFileList([firstImg])//注意，数组格式
+      //console.log(fileList)
     } else if (e.target.value === 3) { //三图，展示所有图片
       setFileList(fileListRef.current)
+      //console.log(fileList)
     }
   }
 
   //提交表单
   const navigate = useNavigate()
-  const onFinish = async (values) => {
+  const onFinish = async (values) => { //values包含了所有提交的数据，通过各个标签的name来关联获取。要先对数据提取和格式化，再发送后端
     console.log(values)
-    //根据文档从打印出的values里取值，并对cover字段进行二次处理
     const { channel_id, content, title, type } = values
     const params = {
       channel_id: channel_id,
@@ -98,7 +101,7 @@ const Publish = () => {
 
     //修改/发布完成后跳转并提示
     navigate('/article')
-    message.success(`${articleId ? '修改成功' : '发布成功'}`)
+    message.success(`${articleId ? '修改成功' : '发布成功'}`) //message是antd的全局提示组件
 
   }
 
@@ -109,17 +112,19 @@ const Publish = () => {
 
   //修改文章时数据回填，id调用接口，1.表单回填，2.暂存列表 3.upload组件fileList
   const form = useRef(null) //要控制Form DOM,需要用ref来绑定
+
   useEffect(() => {
     const loadDetail = async () => {
       const res = await http.get(`/mp/articles/${articleId}`)
-      //console.log(res.data)打印查看请求是否发送，返回值的格式是什么
+      //console.log(res)//打印查看res结构
       //从res.data拿到数据填回表单，用antD内置方法setFieldsValue回填
-      const { cover, ...formValue } = res.data
+      const { cover, ...formValue } = res.data //formValue是自定义的名字，...formValue代表了解构后剩下的所有数据
       form.current.setFieldsValue({ ...formValue, type: cover.type })
-      //格式化封面图片数据
-      const imageList = cover.images.map(url => ({ url }))
-      //调用setFileList方法回填upload
+      //把图片url提取出来,回填到upload的位置
+      const imageList = cover.images.map(url => ({ url })) //把url存成对象格式放在数组中
       setFileList(imageList)
+      //console.log(imageList) //打印后得知imageList格式为[{...}]
+      //回填单图/三图选项
       setImaCount(cover.type)
       fileListRef.current = imageList //暂存列表也要更新，要不单图、三图按钮不起作用
 
@@ -149,7 +154,7 @@ const Publish = () => {
           wrapperCol={{ span: 16 }}
           initialValues={{ type: 1 }}
           onFinish={onFinish}
-          ref={form}
+          ref={form} //通过ref来把form和<Form/>绑定，通过操作form来操作控制<Form/>
         >
           <Form.Item
             label="标题"
@@ -171,6 +176,7 @@ const Publish = () => {
           </Form.Item>
 
           <Form.Item label="封面">
+            {/* 单独用一个<Form.Item/>标签把下面的Radio.Group包起来,是为了让Radio与upload对齐和有上下间距 */}
             <Form.Item name="type">
               <Radio.Group onChange={radioChange}>
                 <Radio value={1}>单图</Radio>
@@ -178,6 +184,7 @@ const Publish = () => {
                 <Radio value={0}>无图</Radio>
               </Radio.Group>
             </Form.Item>
+            {/* 为保证Upload标签的缩进对齐，Upload要放在<Form.Item label='封面' >标签里 */}
             {imaCount > 0 && (
               <Upload
                 name="image"

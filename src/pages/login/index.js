@@ -6,9 +6,10 @@ import { useStore } from '@/store'
 import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
-  const { loginStore } = useStore()
+  const { loginStore } = useStore() //从useStore里解构出loginStore
   const navigate = useNavigate()
-  const onFinish = async (values) => {
+
+  const onFinish = async (values) => { //value为Form里面填写获取的所有值
     //console.log(values)
     try {
       await loginStore.getToken({
@@ -20,7 +21,7 @@ const Login = () => {
       //提示登录成功
       message.success('登录成功')
     } catch (e) {
-      message.error(e.response?.data?.message || '登录失败')
+      message.error(e.response?.data?.message || '登录失败') //先判断后端是否返回错误信息，有就展示错误信息，没有就展示'登录失败',这里的message是antd的全局信息提示
     }
   }
 

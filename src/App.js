@@ -1,5 +1,5 @@
-import { unstable_HistoryRouter as Router, Routes, Route } from 'react-router-dom'
-import { history } from './utils/history'
+import { Routes, Route } from 'react-router-dom'
+import { history, HistoryRouter } from './utils/history'
 import { AuthComponent } from "./components/AuthComponent"
 import './App.css'
 import { lazy, Suspense } from 'react'
@@ -22,7 +22,7 @@ const Publish = lazy(() => import('./pages/publish'))
 function App () {
   return (
     //路由配置
-    <Router history={history}>
+    <HistoryRouter history={history}>
       <div className="App">
         <Suspense    //使用 Suspense 组件包裹组件内容
           fallback={  //为 Suspense 组件提供 fallback 属性，指定 loading 占位内容
@@ -51,7 +51,7 @@ function App () {
           </Routes>
         </Suspense>
       </div>
-    </Router>
+    </HistoryRouter>
   )
 }
 

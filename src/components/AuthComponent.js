@@ -8,6 +8,7 @@
 import { getToken } from "@/utils"
 import { Navigate } from "react-router-dom"
 
+//把所有children组件，当做参数传入AuthComponent中
 const AuthComponent = ({ children }) => {
   const isToken = getToken()
   if (isToken) {
