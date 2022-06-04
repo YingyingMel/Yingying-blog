@@ -3,7 +3,11 @@ import {
   HomeOutlined,
   DiffOutlined,
   EditOutlined,
-  LogoutOutlined
+  LogoutOutlined,
+  VideoCameraOutlined,
+  ContactsOutlined,
+  BookOutlined,
+  CarryOutOutlined
 } from '@ant-design/icons'
 import './index.scss'
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
@@ -12,6 +16,21 @@ import { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 
 const { Header, Sider } = Layout
+
+const items = [
+  { label: (<Link to='/'>Home</Link>), icon: <HomeOutlined />, key: '/' },
+  {
+    label: (<Link to='/article'>Diary</Link>), icon: <BookOutlined />, key: 'sub1', children:
+      [
+        { label: (<Link to='/article'>Diary List</Link>), icon: <DiffOutlined />, key: '/article' },
+        { label: (<Link to='/publish'>Publish a diary</Link>), icon: <EditOutlined />, key: '/publish' }
+      ]
+  },
+  { label: (<Link to='/todolist'>To-do-List</Link>), icon: <CarryOutOutlined />, key: '/todolist' },
+  { label: (<Link to='/movieland'>MovieLand</Link>), icon: <VideoCameraOutlined />, key: '/movieland' },
+  { label: (<Link to='/about'>Contact me</Link>), icon: <ContactsOutlined />, key: '/about' },
+]
+
 
 const LayoutPage = () => {
   const { pathname } = useLocation()
@@ -41,32 +60,36 @@ const LayoutPage = () => {
           <span className="user-name">{userStore.userInfo.name}</span>
           <span className="user-logout">
             <Popconfirm
-              title="是否确认退出？"
-              okText="退出"
-              cancelText="取消"
+              title="Are you sure to logout?"
+              okText="yes"
+              cancelText="cancle"
               onConfirm={onConfirm}>
-              <LogoutOutlined /> 退出
+              <LogoutOutlined /> Logout
             </Popconfirm>
           </span>
         </div>
       </Header>
       <Layout>
-        <Sider width={200} className="site-layout-background">
+        <Sider
+          width={200}
+          className="site-layout-background"
+          breakpoint="lg"
+          collapsedWidth="0"
+        // onBreakpoint={(broken) => {
+        //   console.log(broken)
+        // }}
+        // onCollapse={(collapsed, type) => {
+        //   console.log(collapsed, type)
+        // }}
+        >
           <Menu
             mode="inline"
             theme="dark"
             defaultSelectedKeys={[pathname]}
             style={{ height: '100%', borderRight: 0 }}
+            items={items}
           >
-            <Menu.Item icon={<HomeOutlined />} key="/">
-              <Link to='/'>数据概览</Link>
-            </Menu.Item>
-            <Menu.Item icon={<DiffOutlined />} key="/article">
-              <Link to='/article'>内容管理</Link>
-            </Menu.Item>
-            <Menu.Item icon={<EditOutlined />} key="/publish">
-              <Link to='/publish'>发布文章</Link>
-            </Menu.Item>
+
           </Menu>
         </Sider>
         <Layout className="layout-content" style={{ padding: 20 }}>

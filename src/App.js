@@ -1,6 +1,7 @@
+import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { history, HistoryRouter } from './utils/history'
-import { AuthComponent } from "./components/AuthComponent"
+import { AuthRoute } from './components/AuthRoute'
 import './App.css'
 import { lazy, Suspense } from 'react'
 
@@ -12,11 +13,14 @@ import { lazy, Suspense } from 'react'
 // import LayoutPage from '@/pages/layout'
 
 // 按需导入路由组件
-const Login = lazy(() => import('./pages/login'))
-const LayoutPage = lazy(() => import('./pages/layout'))
-const Home = lazy(() => import('./pages/home'))
-const Article = lazy(() => import('./pages/article'))
-const Publish = lazy(() => import('./pages/publish'))
+const Login = lazy(() => import('@/pages/login'))
+const LayoutPage = lazy(() => import('@/pages/layout'))
+const Home = lazy(() => import('@/pages/home'))
+const Article = lazy(() => import('@/pages/article'))
+const Publish = lazy(() => import('@/pages/publish'))
+const ToDoList = lazy(() => import('@/pages/todolist'))
+const MovieLand = lazy(() => import('@/pages/movieland'))
+const About = lazy(() => import('@/pages/about'))
 
 
 function App () {
@@ -39,13 +43,16 @@ function App () {
           <Routes>
             {/* Layout需要用{ AuthComponent }来进行鉴权处理，要根据登录状态来判断是否渲染 */}
             <Route path='/' element={
-              <AuthComponent>
+              <AuthRoute>
                 <LayoutPage />
-              </AuthComponent>
+              </AuthRoute>
             }>
               <Route index element={<Home />}></Route>
               <Route path='/article' element={<Article />}></Route>
               <Route path='/publish' element={<Publish />}></Route>
+              <Route path='/todolist' element={<ToDoList />}></Route>
+              <Route path='/movieland' element={<MovieLand />}></Route>
+              <Route path='/about' element={<About />}></Route>
             </Route>
             <Route path='/login' element={<Login />}></Route>
           </Routes>

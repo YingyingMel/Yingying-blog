@@ -1,5 +1,5 @@
 {
-  "name": "react-pc-yy",
+  "name": "react_blog_yy",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -14,7 +14,7 @@
     "mobx-react-lite": "^3.4.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-quill": "^1.3.5",
+    "react-quill": "^2.0.0-beta.4",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"

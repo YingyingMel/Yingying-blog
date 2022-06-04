@@ -78,7 +78,6 @@ const Publish = () => {
   //提交表单
   const navigate = useNavigate()
   const onFinish = async (values) => { //values包含了所有提交的数据，通过各个标签的name来关联获取。要先对数据提取和格式化，再发送后端
-    console.log(values)
     const { channel_id, content, title, type } = values
     const params = {
       channel_id: channel_id,
@@ -101,7 +100,7 @@ const Publish = () => {
 
     //修改/发布完成后跳转并提示
     navigate('/article')
-    message.success(`${articleId ? '修改成功' : '发布成功'}`) //message是antd的全局提示组件
+    message.success(`${articleId ? 'Update success' : 'Publish success'}`) //message是antd的全局提示组件
 
   }
 
@@ -116,20 +115,14 @@ const Publish = () => {
   useEffect(() => {
     const loadDetail = async () => {
       const res = await http.get(`/mp/articles/${articleId}`)
-      //console.log(res)//打印查看res结构
-      //从res.data拿到数据填回表单，用antD内置方法setFieldsValue回填
-      const { cover, ...formValue } = res.data //formValue是自定义的名字，...formValue代表了解构后剩下的所有数据
+      const { cover, ...formValue } = res.data
       form.current.setFieldsValue({ ...formValue, type: cover.type })
-      //把图片url提取出来,回填到upload的位置
-      const imageList = cover.images.map(url => ({ url })) //把url存成对象格式放在数组中
+      const imageList = cover.images.map(url => ({ url }))
       setFileList(imageList)
-      //console.log(imageList) //打印后得知imageList格式为[{...}]
-      //回填单图/三图选项
       setImaCount(cover.type)
-      fileListRef.current = imageList //暂存列表也要更新，要不单图、三图按钮不起作用
+      fileListRef.current = imageList
 
     }
-    //必须是编辑修改状态，才可以发送请求
     if (articleId) {
       loadDetail()
     }
@@ -143,9 +136,9 @@ const Publish = () => {
         title={
           <Breadcrumb separator=">">
             <Breadcrumb.Item>
-              <Link to="/home">首页</Link>
+              <Link to="/">Home</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>{articleId ? '修改文章' : '发布文章'}</Breadcrumb.Item>
+            <Breadcrumb.Item>{articleId ? 'Update' : 'Publish'}</Breadcrumb.Item>
           </Breadcrumb>
         }
       >
@@ -157,31 +150,31 @@ const Publish = () => {
           ref={form} //通过ref来把form和<Form/>绑定，通过操作form来操作控制<Form/>
         >
           <Form.Item
-            label="标题"
+            label="Title"
             name="title"
-            rules={[{ required: true, message: '请输入文章标题' }]}
+            rules={[{ required: true, message: 'Please input a title' }]}
           >
-            <Input placeholder="请输入文章标题" style={{ width: 400 }} />
+            <Input placeholder="Please input a title" style={{ width: 400 }} />
           </Form.Item>
           <Form.Item
-            label="频道"
+            label="Category"
             name="channel_id"
-            rules={[{ required: true, message: '请选择文章频道' }]}
+            rules={[{ required: true, message: 'Please select a category' }]}
           >
-            <Select placeholder="请选择文章频道" style={{ width: 400 }}>
+            <Select placeholder="Please select a category" style={{ width: 400 }}>
               {channelStore.channelList.map(item => (
                 <Option key={item.id} value={item.id}>{item.name}</Option>
               ))}
             </Select>
           </Form.Item>
 
-          <Form.Item label="封面">
+          <Form.Item label="Cover">
             {/* 单独用一个<Form.Item/>标签把下面的Radio.Group包起来,是为了让Radio与upload对齐和有上下间距 */}
             <Form.Item name="type">
               <Radio.Group onChange={radioChange}>
-                <Radio value={1}>单图</Radio>
-                <Radio value={3}>三图</Radio>
-                <Radio value={0}>无图</Radio>
+                <Radio value={1}>Single picture</Radio>
+                <Radio value={3}>Three pictures</Radio>
+                <Radio value={0}>None</Radio>
               </Radio.Group>
             </Form.Item>
             {/* 为保证Upload标签的缩进对齐，Upload要放在<Form.Item label='封面' >标签里 */}
@@ -205,22 +198,22 @@ const Publish = () => {
           </Form.Item>
 
           <Form.Item
-            label="内容"
+            label="Content"
             name="content"
             initialValue=''
-            rules={[{ required: true, message: '请输入文章内容' }]}
+            rules={[{ required: true, message: 'Please input your diary' }]}
           >
             <ReactQuill
               className="publish-quill"
               theme="snow"
-              placeholder="请输入文章内容"
+              placeholder="Input your diary here"
             />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 4 }}>
             <Space>
               <Button size="large" type="primary" htmlType="submit">
-                {articleId ? '修改文章' : '发布文章'}
+                {articleId ? 'Update' : 'Publish'}
               </Button>
             </Space>
           </Form.Item>

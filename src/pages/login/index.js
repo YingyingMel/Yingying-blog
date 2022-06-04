@@ -19,9 +19,9 @@ const Login = () => {
       //跳转首页
       navigate('/', { replace: true })
       //提示登录成功
-      message.success('登录成功')
+      message.success('login success')
     } catch (e) {
-      message.error(e.response?.data?.message || '登录失败') //先判断后端是否返回错误信息，有就展示错误信息，没有就展示'登录失败',这里的message是antd的全局信息提示
+      message.error(e.response?.data?.message || 'login fail') //先判断后端是否返回错误信息，有就展示错误信息，没有就展示'登录失败',这里的message是antd的全局信息提示
     }
   }
 
@@ -31,6 +31,7 @@ const Login = () => {
         <img className="login-logo" src={logo} alt="" />
         {/* 登录表单 */}
         <Form
+          labelCol={{ span: 8 }}
           validateTrigger={['onBlur', 'onChange']}
           initialValues={{
             remember: true,
@@ -38,45 +39,48 @@ const Login = () => {
           onFinish={onFinish}
         >
           <Form.Item
+            label="Mobile number"
             name="mobile"
             rules={[
               {
                 required: true,
-                message: '请输入手机号!',
+                message: 'Please input the default mobile number',
               },
               {
                 pattern: /^1[3-9]\d{9}$/,
-                message: '手机号码格式不对',
+                message: 'Wrong mobile number',
                 validateTrigger: 'onBlur'
               }
             ]}>
-            <Input size="large" placeholder="请输入手机号" />
+            <Input size="large" placeholder="13811111111" />
           </Form.Item>
           <Form.Item
+            label="Password"
             name="code"
             rules={[
               {
                 required: true,
-                message: '请输入验证码!',
+                message: 'Please input the default password',
               },
               {
                 len: 6,
-                message: '验证码6个字符',
+                message: 'Password is 6 digits',
                 validateTrigger: 'onBlur'
               }
             ]}>
-            <Input size="large" placeholder="请输入验证码" />
+            <Input size="large" placeholder="246810" />
           </Form.Item>
           <Form.Item
+            wrapperCol={{ offset: 8 }}
             name="remember"
             valuePropName="checked">
             <Checkbox className="login-checkbox-label">
-              我已阅读并同意「用户协议」和「隐私条款」
+              Agree to our Privacy Policy
             </Checkbox>
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" size="large" block>
-              登录
+              Login
             </Button>
           </Form.Item>
         </Form>
