@@ -15,7 +15,7 @@ import { useStore } from '@/store'
 import { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 
-const { Header, Sider } = Layout
+const { Header, Content, Footer } = Layout
 
 const items = [
   { label: (<Link to='/'>Home</Link>), icon: <HomeOutlined />, key: '/' },
@@ -53,50 +53,42 @@ const LayoutPage = () => {
   }
 
   return (
-    <Layout>
-      <Header className="header">
+    <Layout className='layout'>
+      <Header>
         <div className="logo" />
+        <Menu
+          mode="horizontal"
+          theme="dark"
+          defaultSelectedKeys={[pathname]}
+          style={{ height: '100%', borderRight: 0 }}
+          items={items}
+        />
         <div className="user-info">
-          <span className="user-name">{userStore.userInfo.name}</span>
-          <span className="user-logout">
-            <Popconfirm
-              title="Are you sure to logout?"
-              okText="yes"
-              cancelText="cancle"
-              onConfirm={onConfirm}>
-              <LogoutOutlined /> Logout
-            </Popconfirm>
-          </span>
+
+          <Popconfirm
+            title="Are you sure to logout?"
+            okText="yes"
+            cancelText="cancle"
+            onConfirm={onConfirm}>
+            <LogoutOutlined /> Logout
+          </Popconfirm>
+
         </div>
       </Header>
-      <Layout>
-        <Sider
-          width={200}
-          className="site-layout-background"
-          breakpoint="lg"
-          collapsedWidth="0"
-        // onBreakpoint={(broken) => {
-        //   console.log(broken)
-        // }}
-        // onCollapse={(collapsed, type) => {
-        //   console.log(collapsed, type)
-        // }}
-        >
-          <Menu
-            mode="inline"
-            theme="dark"
-            defaultSelectedKeys={[pathname]}
-            style={{ height: '100%', borderRight: 0 }}
-            items={items}
-          >
+      <Content style={{ padding: '0 50px' }}>
 
-          </Menu>
-        </Sider>
-        <Layout className="layout-content" style={{ padding: 20 }}>
+        <div className="site-layout-content">
           {/* 二级路由出口 */}
           <Outlet />
-        </Layout>
-      </Layout>
+        </div>
+      </Content>
+      <Footer
+        style={{
+          textAlign: 'center',
+        }}
+      >
+        Yingying's Blog Designed ©2022
+      </Footer>
     </Layout>
   )
 }

@@ -217,8 +217,8 @@ const Article = () => {
             <RangePicker></RangePicker>
           </Form.Item>
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit" style={{ marginLeft: 100 }}>
+          <Form.Item wrapperCol={{ offset: 2 }}>
+            <Button type="primary" htmlType="submit" >
               Search
             </Button>
           </Form.Item>
