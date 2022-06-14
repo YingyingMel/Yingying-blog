@@ -4,6 +4,7 @@ import logo from '@/assets/logo.png'
 import './index.scss'
 import { useStore } from '@/store'
 import { useNavigate } from 'react-router-dom'
+//import axios from 'axios'
 
 const Login = () => {
   const { loginStore } = useStore() //从useStore里解构出loginStore
@@ -13,15 +14,15 @@ const Login = () => {
     //console.log(values)
     try {
       await loginStore.getToken({
-        mobile: values.mobile, //或者写成：const {mobile, code} = values; 
-        code: values.code      //loginStore.getToken({mobile, code})
+        username: values.username, //或者写成：const {username, password} = values; 
+        password: values.password      //loginStore.getToken({username, password})
       })
       //跳转首页
       navigate('/', { replace: true })
       //提示登录成功
       message.success('login success')
     } catch (e) {
-      message.error(e.response?.data?.message || 'login fail') //先判断后端是否返回错误信息，有就展示错误信息，没有就展示'登录失败',这里的message是antd的全局信息提示
+      message.error(e.response?.data?.message || 'login fail') //先判断后端是否返回错误信息，有就 展示错误信息，没有就展示'登录失败',这里的message是antd的全局信息提示
     }
   }
 
@@ -40,23 +41,23 @@ const Login = () => {
         >
           <Form.Item
             label="Mobile number"
-            name="mobile"
+            name="username"
             rules={[
               {
                 required: true,
                 message: 'Please input the default mobile number',
               },
               {
-                pattern: /^1[3-9]\d{9}$/,
+                pattern: /^(?:\+?61|0)[2-478](?:[ -]?[0-9]){8}$/,
                 message: 'Wrong mobile number',
                 validateTrigger: 'onBlur'
               }
             ]}>
-            <Input size="large" placeholder="13811111111" />
+            <Input size="large" placeholder="0426580613" />
           </Form.Item>
           <Form.Item
             label="Password"
-            name="code"
+            name="password"
             rules={[
               {
                 required: true,

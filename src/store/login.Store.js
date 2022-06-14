@@ -10,17 +10,19 @@ class LoginStore {
   }
 
   //登录
-  getToken = async ({ mobile, code }) => {
-    //调用登录接口
-    const res = await http.post('http://geek.itheima.net/v1_0/authorizations', {
-      mobile,
-      code
+  getToken = async ({ username, password }) => {
+    //调用http请求后端登录接口
+    const res = await http.post('/api/login', {
+      username,
+      password
     })
     //存入token
     this.token = res.data.token //从服务器获得token
     //存入localstorage
     setToken(this.token)
   }
+
+
 
   //退出，删除token
   loginOut = () => {

@@ -92,10 +92,10 @@ const Publish = () => {
 
     if (articleId) {
       //编辑修改
-      await http.put(`/mp/articles/${articleId}?draft=false`, params)
+      await http.put(`/my/article/edit/${articleId}`, params)
     } else {
       //新增发布
-      await http.post('/mp/articles?draft=false', params)
+      await http.post('/my/article/add', params)
     }
 
     //修改/发布完成后跳转并提示
@@ -114,7 +114,7 @@ const Publish = () => {
 
   useEffect(() => {
     const loadDetail = async () => {
-      const res = await http.get(`/mp/articles/${articleId}`)
+      const res = await http.get(`/my/article/${articleId}`)
       const { cover, ...formValue } = res.data
       form.current.setFieldsValue({ ...formValue, type: cover.type })
       const imageList = cover.images.map(url => ({ url }))
@@ -172,9 +172,9 @@ const Publish = () => {
             {/* 单独用一个<Form.Item/>标签把下面的Radio.Group包起来,是为了让Radio与upload对齐和有上下间距 */}
             <Form.Item name="type">
               <Radio.Group onChange={radioChange}>
-                <Radio value={1}>Single picture</Radio>
-                <Radio value={3}>Three pictures</Radio>
-                <Radio value={0}>None</Radio>
+                <Radio value={1}>upload cover</Radio>
+                {/* <Radio value={3}>Three pictures</Radio> */}
+                <Radio value={0}>No cover</Radio>
               </Radio.Group>
             </Form.Item>
             {/* 为保证Upload标签的缩进对齐，Upload要放在<Form.Item label='封面' >标签里 */}
@@ -187,8 +187,8 @@ const Publish = () => {
                 action="http://geek.itheima.net/v1_0/upload"
                 fileList={fileList}
                 onChange={onUploadChange} //上传后有服务器的信息返回
-                multiple={imaCount > 1}
-                maxCount={imaCount}
+                // multiple={imaCount > 1}
+                maxCount='1'
               >
                 <div style={{ marginTop: 8 }}>
                   <PlusOutlined />

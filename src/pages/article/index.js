@@ -118,7 +118,7 @@ const Article = () => {
   //而写到useEffect内部，只会在依赖项发生变化的时候，函数才会重新初始化，避免性能损失。
   useEffect(() => {
     const loadList = async () => {
-      const res = await http.get('/mp/articles', { params })
+      const res = await http.get('/my/article/list', { params })
       const { results, total_count } = res.data
       setAticleData({
         list: results,
@@ -166,7 +166,7 @@ const Article = () => {
   //删除文章
   const delArticle = async (data) => {
     //console.log(data) //先打印看看能否收集到的文章id
-    await http.delete(`/mp/articles/${data.id}`)
+    await http.delete(`/my/article/delete/${data.id}`)
     // 更新列表
     setParams({
       page: 1,

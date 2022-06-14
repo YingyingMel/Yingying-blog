@@ -4,7 +4,7 @@ import { history } from './history'
 
 //请求后端的baseURL
 const http = axios.create({
-  baseURL: 'http://geek.itheima.net/v1_0',
+  baseURL: 'http://127.0.0.1:3007',
   timeout: 5000
 })
 // 添加请求拦截器
@@ -21,9 +21,8 @@ http.interceptors.request.use((config) => {
 
 // 添加响应拦截器
 http.interceptors.response.use((response) => {
-  return response.data
+  return response
 }, (error) => {
-  // 超出 2xx 范围的状态码都会触发该函数。
   console.dir(error)
   if (error.response.status === 401) {
     //跳回登录页面，ReactRouter默认状态下，不支持在组件之外完成路由跳转
