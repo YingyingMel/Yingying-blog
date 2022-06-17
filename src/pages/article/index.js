@@ -20,7 +20,7 @@ const Article = () => {
       title: 'Cover',
       dataIndex: 'images',
       render: images => { //下面src地址要根据后端返回数据提取url，文档里有res截图
-        return <img src={JSON.parse(images)[0].url || img404} width={80} height={60} alt="" />
+        return <img src={JSON.parse(images)[0] ? JSON.parse(images)[0].url : img404} width={80} height={60} alt="" />
       }
     },
     {
@@ -80,22 +80,6 @@ const Article = () => {
     }
   ]
 
-  //用于看效果的静态数据
-  // const data = [
-  //   {
-  //     id: '8218',
-  //     comment_count: 0,
-  //     cover: {
-  //       images: ['http://geek.itheima.net/resources/images/15.jpg'],
-  //     },
-  //     like_count: 0,
-  //     pubdate: '2019-03-11 09:00:00',
-  //     read_count: 2,
-  //     status: 2,
-  //     title: 'wkwebview离线化加载h5资源解决方案'
-  //   }
-  // ]
-
 
   //从channelStore去频道列表,可直接去return里渲染列表(记得先去layout里导入并与useEffect绑定)
   const { channelStore } = useStore()
@@ -131,6 +115,7 @@ const Article = () => {
   //在按了筛选键表格提交后，onFinish调用onSearch能拿到所有用户提交的要筛选的values
   //打印出来，挑选出需要的数据后setParams，再把Params发送服务器重新请求数据并渲染筛选后的列表
   const onSearch = (values) => { //这里的values是Form收集到的所有数据
+    console.log(values)
     const { status, channel_id, date } = values
     const _params = {} //临时声明一个变量用来存要修改的参数 
     _params.status = status
@@ -141,7 +126,7 @@ const Article = () => {
       _params.begin_pubdate = date[0].format('DD-MM-YYYY') //返回的是个moment对象
       _params.end_pubdate = date[1].format('DD-MM-YYYY') //需要format格式化一下
     }
-    //console.log(_params)
+    console.log(_params)
     // 修改params参数 触发接口再次发起请求
     setParams({
       ...params,
