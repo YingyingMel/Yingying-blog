@@ -14,13 +14,13 @@ const { RangePicker } = DatePicker
 
 const Article = () => {
 
-  //表格columns结构,是根据后端的文档数据设置的
+  //表格columns结构,是根据后端的文档数据设置的，里面的参数是单个文章里面的属性,dataIndex要与后端数据的字段名相同
   const columns = [
     {
       title: 'Cover',
-      dataIndex: 'cover',
-      render: cover => { //下面src地址要根据后端返回数据提取url
-        return <img src={cover.images[0] || img404} width={200} height={150} alt="" />
+      dataIndex: 'images',
+      render: images => { //下面src地址要根据后端返回数据提取url，文档里有res截图
+        return <img src={JSON.parse(images)[0].url || img404} width={80} height={60} alt="" />
       }
     },
     {
@@ -34,8 +34,8 @@ const Article = () => {
       render: data => <Tag color="green">Reviewed</Tag>
     },
     {
-      title: 'Date',
-      dataIndex: 'pubdate'
+      title: 'pub_date',
+      dataIndex: 'pub_date'
     },
     {
       title: 'Readings',
@@ -49,8 +49,8 @@ const Article = () => {
       title: 'Likes',
       dataIndex: 'like_count'
     },
-    {//对于action,有两种方案，1.删除这个dataIndex，render: data => ,否则拿到的data是undefined
-      //2. 下面这种，保留dataIndex:'action', render要写成 render: (_, data) =>， _是占位符
+    {//对于action,有两种方案，1.下面这种，删除这个dataIndex(dataIndex用于与后端数据库字段匹配)，render: data => ,否则拿到的data是undefined
+      //2. 保留dataIndex:'action', render要写成 render: (_, data) =>， _是占位符
       title: 'Action',
       render: data => { //data就是fetchArticleList时返回并存在ArticleData.list里的每一条被遍历的数据
         return (
@@ -119,10 +119,10 @@ const Article = () => {
   useEffect(() => {
     const loadList = async () => {
       const res = await http.get('/my/article/list', { params })
-      const { results, total_count } = res.data
+      console.log(res)
       setAticleData({
-        list: results,
-        count: total_count
+        list: res.data.data,
+        count: res.data.total_count
       })
     }
     loadList()
@@ -137,10 +137,11 @@ const Article = () => {
     if (channel_id) {
       _params.channel_id = channel_id
     }
-    if (date) { //通过之前的打印知道date的数据结构
+    if (date) {
       _params.begin_pubdate = date[0].format('DD-MM-YYYY') //返回的是个moment对象
       _params.end_pubdate = date[1].format('DD-MM-YYYY') //需要format格式化一下
     }
+    //console.log(_params)
     // 修改params参数 触发接口再次发起请求
     setParams({
       ...params,
@@ -175,7 +176,7 @@ const Article = () => {
   }
 
   return (
-    <div>
+    <div className='site-card-border-less-wrapper'>
       {/* 筛选区域 */}
       <Card
         title={
@@ -189,18 +190,18 @@ const Article = () => {
         style={{ marginBottom: 20 }}
       >
         {/* 对每个Form里面的数据采集只需要在Form标签里进行OnFinish，不需要每个item都进行OnFinish操作 */}
-        {/* 下面的values值是根据接口来设置的，不能乱设，但是'全部'的时候是null，会报错，这里用-1代替 */}
+        {/* 下面的values值是根据接口来设置的，不能乱设，但是'all'的时候是null，会报错，这里用-1代替 */}
         <Form
           onFinish={onSearch}
-          initialValues={{ status: -1 }}
+          initialValues={{ status: 1 }}
           labelCol={{ span: 2 }}>
           <Form.Item label="Status" name="status">
             <Radio.Group>
-              <Radio value={-1}>All</Radio>
-              <Radio value={0}>Draft</Radio>
-              <Radio value={1}>Reviewing</Radio>
-              <Radio value={2}>Reviewed</Radio>
-              <Radio value={3}>Review failed</Radio>
+              <Radio value={1}>All</Radio>
+              <Radio value={2}>Draft</Radio>
+              <Radio value={3}>Reviewing</Radio>
+              <Radio value={4}>Reviewed</Radio>
+              <Radio value={5}>Review failed</Radio>
             </Radio.Group>
           </Form.Item>
 

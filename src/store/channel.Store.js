@@ -12,7 +12,7 @@ class ChannelStore {
   loadChannelList = async () => {
     const res = await http.get('/my/channels')
     //console.log(res) //查看res的结构，提取需要的数据
-    this.channelList = res.data.channels
+    this.channelList = res.data.data
   }
 }
 

@@ -31,12 +31,9 @@ const Publish = () => {
 
   //上传图片成功回调
   //fileList存放上传图片成功后返回的图片url，设置fileList初始值为空，当执行upload后，
-  //action动作发起请求，并有res返回，res里也有fileList属性，把该属性解构出来，提取url
-  //声明fileList来存储和渲染上传图片成功后返回的url，赋值给<upload>里的fileList属性
+  //action动作发起请求，并有res返回，res里也有fileList属性，把该属性解构出来，提取fileList赋值给url
+  //声明fileList来存储和渲染上传图片成功后返回的地址名称，赋值给<upload>里的fileList属性
   const [fileList, setFileList] = useState([])
-
-  //声明一个暂存仓库来存取三图url
-  const fileListRef = useRef([])
 
   const onUploadChange = ({ fileList }) => { //直接从res中解构fileList
     console.log(fileList)
@@ -50,12 +47,8 @@ const Publish = () => {
       //否则在上传中，不做处理
       return file
     })
-    //查看上传图片后服务器返回的信息
-    //会打印3次，percent: 0，event: ProgressEvent，percent: 100
-    //最后一次打印的res里才有file.response.data.url
+    console.log(formatList)
     setFileList(formatList)
-    //这样setFileList，fileList里每次只能存一个url, 存三图时前两个图的url会被第三个图的url覆盖，所以需要声明一个临时变量来暂存所有url
-    fileListRef.current = formatList
   }
 
 
@@ -64,35 +57,24 @@ const Publish = () => {
   const radioChange = (e) => {
     //console.log(e)
     setImaCount(e.target.value)
-
-    if (e.target.value === 1) { //单图，只展示一张
-      const firstImg = fileListRef.current ? fileListRef.current[0] : []
-      setFileList([firstImg])//注意，数组格式
-      //console.log(fileList)
-    } else if (e.target.value === 3) { //三图，展示所有图片
-      setFileList(fileListRef.current)
-      //console.log(fileList)
-    }
   }
+
 
   //提交表单
   const navigate = useNavigate()
   const onFinish = async (values) => { //values包含了所有提交的数据，通过各个标签的name来关联获取。要先对数据提取和格式化，再发送后端
-    const { channel_id, content, title, type } = values
+    const { channel_id, content, title } = values
     const params = {
       channel_id: channel_id,
       content: content,
-      type: type,
       title: title,
-      cover: {
-        type: type,
-        images: [fileList.map(item => item.url)]
-      }
+      images: JSON.stringify(fileList) //把fileList里的图片对象转成字符串发给服务器
     }
+    console.log(params)
 
     if (articleId) {
       //编辑修改
-      await http.put(`/my/article/edit/${articleId}`, params)
+      await http.put(`/my/article/edit/${articleId}`, { ...params, id: articleId })
     } else {
       //新增发布
       await http.post('/my/article/add', params)
@@ -109,19 +91,18 @@ const Publish = () => {
   const [params] = useSearchParams()
   const articleId = params.get('id')
 
-  //修改文章时数据回填，id调用接口，1.表单回填，2.暂存列表 3.upload组件fileList
+  //修改文章时数据回填，id调用接口，1.表单回填，2.upload组件fileList
   const form = useRef(null) //要控制Form DOM,需要用ref来绑定
 
   useEffect(() => {
     const loadDetail = async () => {
       const res = await http.get(`/my/article/${articleId}`)
-      const { cover, ...formValue } = res.data
-      form.current.setFieldsValue({ ...formValue, type: cover.type })
-      const imageList = cover.images.map(url => ({ url }))
-      setFileList(imageList)
-      setImaCount(cover.type)
-      fileListRef.current = imageList
-
+      console.log(res)
+      const { images, ...formValue } = res.data.data
+      form.current.setFieldsValue({ ...formValue })//数据回填
+      //把服务器发回的图片字符串转回对象格式，存到fileList
+      setFileList(JSON.parse(images))
+      console.log(JSON.parse(images))
     }
     if (articleId) {
       loadDetail()
@@ -173,7 +154,6 @@ const Publish = () => {
             <Form.Item name="type">
               <Radio.Group onChange={radioChange}>
                 <Radio value={1}>upload cover</Radio>
-                {/* <Radio value={3}>Three pictures</Radio> */}
                 <Radio value={0}>No cover</Radio>
               </Radio.Group>
             </Form.Item>

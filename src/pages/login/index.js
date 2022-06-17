@@ -22,7 +22,7 @@ const Login = () => {
       //提示登录成功
       message.success('login success')
     } catch (e) {
-      message.error(e.response?.data?.message || 'login fail') //先判断后端是否返回错误信息，有就 展示错误信息，没有就展示'登录失败',这里的message是antd的全局信息提示
+      message.error(e.response.data || 'login fail') //先判断后端是否返回错误信息，有就 展示错误信息，没有就展示'登录失败',这里的message是antd的全局信息提示
     }
   }
 
