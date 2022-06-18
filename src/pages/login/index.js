@@ -45,7 +45,7 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input the default mobile number',
+                message: 'Please input my number: 0426580613',
               },
               {
                 pattern: /^(?:\+?61|0)[2-478](?:[ -]?[0-9]){8}$/,
@@ -53,7 +53,7 @@ const Login = () => {
                 validateTrigger: 'onBlur'
               }
             ]}>
-            <Input size="large" placeholder="0426580613" />
+            <Input size="large" initialvalues="0426580613" placeholder='0426580613' />
           </Form.Item>
           <Form.Item
             label="Password"
@@ -61,7 +61,7 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input the default password',
+                message: 'Please input this password: 246810',
               },
               {
                 len: 6,
@@ -69,7 +69,7 @@ const Login = () => {
                 validateTrigger: 'onBlur'
               }
             ]}>
-            <Input size="large" placeholder="246810" />
+            <Input size="large" initialvalues="246810" placeholder='246810' />
           </Form.Item>
           <Form.Item
             wrapperCol={{ offset: 8 }}

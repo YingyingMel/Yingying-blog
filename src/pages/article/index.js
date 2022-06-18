@@ -31,7 +31,15 @@ const Article = () => {
     {
       title: 'Status',
       dataIndex: 'status',
-      render: data => <Tag color="green">Reviewed</Tag>
+      render: status => {
+        switch (status) {
+          case 2: return <Tag color="grey">Draft</Tag>
+          case 3: return <Tag color="blue">Reviewing</Tag>
+          case 4: return <Tag color="green">Reviewed</Tag>
+          case 5: return <Tag color="red">Review failed</Tag>
+          default: return <Tag color="blue">Reviewing</Tag>
+        }
+      }
     },
     {
       title: 'pub_date',
@@ -118,7 +126,11 @@ const Article = () => {
     console.log(values)
     const { status, channel_id, date } = values
     const _params = {} //临时声明一个变量用来存要修改的参数 
-    _params.status = status
+    if (status === 1) {
+      _params.status = null
+    } else {
+      _params.status = status
+    }
     if (channel_id) {
       _params.channel_id = channel_id
     }
