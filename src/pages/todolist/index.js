@@ -70,7 +70,7 @@ const ToDoList = () => {
 
   return (
     <div className='todolistscss'>
-      <div className="container">
+      <div className="container-todolist">
         <Header
           onAdd={() => { setShowAddTask(!showAddTask) }}
           showAdd={showAddTask} />

@@ -28,7 +28,7 @@ const items = [
   },
   { label: (<Link to='/todolist'>To-do-List</Link>), icon: <CarryOutOutlined />, key: '/todolist' },
   { label: (<Link to='/movieland'>MovieLand</Link>), icon: <VideoCameraOutlined />, key: '/movieland' },
-  { label: (<Link to='/about'>Contact me</Link>), icon: <ContactsOutlined />, key: '/about' },
+  //{ label: (<Link to='/about'>Contact me</Link>), icon: <ContactsOutlined />, key: '/about' },
 ]
 
 

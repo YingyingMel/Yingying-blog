@@ -23,3 +23,29 @@
 .ant-carousel .slick-dots-bottom {
   bottom: 26px;
 }
+
+.container {
+  display: flex;
+  margin: 8px auto;
+  .leftside {
+    flex: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .avatar-logo {
+      margin-top: 1rem;
+    }
+    .name-tag {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .skill-labels {
+      margin-top: 10px auto;
+      padding: 20px 20px;
+      text-align: center;
+    }
+  }
+  .rightside {
+    flex: 70%;
+  }
+}
