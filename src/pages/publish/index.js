@@ -41,7 +41,7 @@ const Publish = () => {
       //上传完毕，提取数据
       if (file.response) {
         return {
-          url: file.response.data.url //提取response里的url,其他信息不要
+          url: file.response.url //提取response里的url,其他信息不要，文档有截图
         }
       }
       //否则在上传中，不做处理
@@ -160,11 +160,11 @@ const Publish = () => {
             {/* 为保证Upload标签的缩进对齐，Upload要放在<Form.Item label='封面' >标签里 */}
             {imaCount > 0 && (
               <Upload
-                name="image"
+                name="images"
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList
-                action="http://geek.itheima.net/v1_0/upload"
+                action="http://127.0.0.1:3007/api/upload"
                 fileList={fileList}
                 onChange={onUploadChange} //上传后有服务器的信息返回
                 // multiple={imaCount > 1}

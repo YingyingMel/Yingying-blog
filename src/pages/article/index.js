@@ -20,7 +20,8 @@ const Article = () => {
       title: 'Cover',
       dataIndex: 'images',
       render: images => { //下面src地址要根据后端返回数据提取url，文档里有res截图
-        return <img src={JSON.parse(images)[0] ? JSON.parse(images)[0].url : img404} width={80} height={60} alt="" />
+        //console.log(JSON.parse(images))
+        return <img src={JSON.parse(images) ? JSON.parse(images)[0].url : img404} width={80} height={60} alt="" />
       }
     },
     {
