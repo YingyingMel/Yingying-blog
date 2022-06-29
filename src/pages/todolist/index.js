@@ -47,14 +47,14 @@ const ToDoList = () => {
   const toggleReminder = async (id) => {
     const res = await fetchTask(id) //拿到单个task数据
     const taskToggle = res[0]
-    console.log(taskToggle)
+    //console.log(taskToggle)
     const updTask = { ...taskToggle, reminder: !taskToggle.reminder } //把单个task的reminder切换
-    console.log(updTask)
+    //console.log(updTask)
 
     //把修改好的数据写回服务器
     await http.put(`/todolist/${id}`, { ...updTask, id: id })
     const renewTasks = await fetchTasks()
-    console.log(renewTasks)
+    //console.log(renewTasks)
     setTasks(renewTasks)
   }
 

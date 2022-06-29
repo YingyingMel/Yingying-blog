@@ -14,7 +14,7 @@ function MovieLand () {
   const searchMovies = async (title) => {
     const res = await fetch(`${API_URL}&s=${title}`)
     const data = await res.json()
-    console.log(data.Search)
+    //console.log(data.Search)
     setMovies(data.Search)
   }
 

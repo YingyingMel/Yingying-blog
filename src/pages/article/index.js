@@ -21,7 +21,7 @@ const Article = () => {
       dataIndex: 'images',
       render: images => { //下面src地址要根据后端返回数据提取url，文档里有res截图
         //console.log(JSON.parse(images))
-        return <img src={JSON.parse(images) ? JSON.parse(images)[0].url : img404} width={80} height={60} alt="" />
+        return <img src={JSON.parse(images)[0] ? JSON.parse(images)[0].url : img404} width={80} height={60} alt="" />
       }
     },
     {
@@ -112,7 +112,7 @@ const Article = () => {
   useEffect(() => {
     const loadList = async () => {
       const res = await http.get('/my/article/list', { params })
-      console.log(res)
+      //console.log(res)
       setAticleData({
         list: res.data.data,
         count: res.data.total_count
@@ -124,7 +124,7 @@ const Article = () => {
   //在按了筛选键表格提交后，onFinish调用onSearch能拿到所有用户提交的要筛选的values
   //打印出来，挑选出需要的数据后setParams，再把Params发送服务器重新请求数据并渲染筛选后的列表
   const onSearch = (values) => { //这里的values是Form收集到的所有数据
-    console.log(values)
+    //console.log(values)
     const { status, channel_id, date } = values
     const _params = {} //临时声明一个变量用来存要修改的参数 
     if (status === 1) {
@@ -139,7 +139,7 @@ const Article = () => {
       _params.begin_pubdate = date[0].format('DD-MM-YYYY') //返回的是个moment对象
       _params.end_pubdate = date[1].format('DD-MM-YYYY') //需要format格式化一下
     }
-    console.log(_params)
+    //console.log(_params)
     // 修改params参数 触发接口再次发起请求
     setParams({
       ...params,

@@ -4,7 +4,7 @@ import { history } from './history'
 
 //请求后端的baseURL
 const http = axios.create({
-  baseURL: 'http://127.0.0.1:3007',
+  baseURL: 'https://blog-yy-server.herokuapp.com',
   timeout: 5000
 })
 // 添加请求拦截器

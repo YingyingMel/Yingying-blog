@@ -70,7 +70,7 @@ const Publish = () => {
       title: title,
       images: JSON.stringify(fileList) //把fileList里的图片对象转成字符串发给服务器
     }
-    console.log(params)
+    //console.log(params)
 
     if (articleId) {
       //编辑修改
@@ -164,7 +164,7 @@ const Publish = () => {
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList
-                action="http://127.0.0.1:3007/api/upload"
+                action="https://blog-yy-server.herokuapp.com/api/upload"
                 fileList={fileList}
                 onChange={onUploadChange} //上传后有服务器的信息返回
                 // multiple={imaCount > 1}
