@@ -5,7 +5,7 @@ import MovieCard from './MovieCard'
 
 //Here is your key: e3caa36b
 
-const API_URL = "http://www.omdbapi.com/?i=tt3896198&apikey=e3caa36b"
+const API_URL = "https://www.omdbapi.com/?i=tt3896198&apikey=e3caa36b"
 
 function MovieLand () {
   const [movies, setMovies] = useState([])

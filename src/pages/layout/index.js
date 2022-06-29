@@ -5,7 +5,6 @@ import {
   EditOutlined,
   LogoutOutlined,
   VideoCameraOutlined,
-  ContactsOutlined,
   BookOutlined,
   CarryOutOutlined
 } from '@ant-design/icons'
