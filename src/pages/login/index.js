@@ -53,7 +53,7 @@ const Login = () => {
                 validateTrigger: 'onBlur'
               }
             ]}>
-            <Input size="large" initialvalues="0426580613" placeholder='0426580613' />
+            <Input size="large" defaultValue="0426580613" placeholder='0426580613' />
           </Form.Item>
           <Form.Item
             label="Password"
@@ -69,7 +69,7 @@ const Login = () => {
                 validateTrigger: 'onBlur'
               }
             ]}>
-            <Input size="large" initialvalues="246810" placeholder='246810' />
+            <Input size="large" defaultValue="246810" placeholder='246810' />
           </Form.Item>
           <Form.Item
             wrapperCol={{ offset: 8 }}
