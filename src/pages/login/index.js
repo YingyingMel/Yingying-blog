@@ -34,7 +34,10 @@ const Login = () => {
         <Form
           labelCol={{ span: 8 }}
           validateTrigger={['onBlur', 'onChange']}
+          // instead of using defaultValue(this will give you warning `defaultValue` will not work on controlled Field), using initialValues
           initialValues={{
+            username: "0426580613",
+            password:"246810",
             remember: true,
           }}
           onFinish={onFinish}
@@ -53,7 +56,7 @@ const Login = () => {
                 validateTrigger: 'onBlur'
               }
             ]}>
-            <Input size="large" defaultValue="0426580613" placeholder='0426580613' />
+            <Input size="large" name="username"/>
           </Form.Item>
           <Form.Item
             label="Password"
@@ -69,7 +72,7 @@ const Login = () => {
                 validateTrigger: 'onBlur'
               }
             ]}>
-            <Input size="large" defaultValue="246810" placeholder='246810' />
+            <Input size="large"  name="password"/>
           </Form.Item>
           <Form.Item
             wrapperCol={{ offset: 8 }}
