@@ -77,7 +77,8 @@ const ToDoList = () => {
         {
           <>
             {showAddTask && <AddTask onAddTask={onAddTask} />}
-            {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
+            {/* check on if tasks existed, otherwise undefined.length will throw error */}
+            {tasks ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
               : 'No Task'}
           </>
         }

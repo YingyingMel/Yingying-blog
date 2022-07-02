@@ -208,7 +208,8 @@ const Article = () => {
               placeholder="category select"
               style={{ width: 120 }}
             >
-              {channelStore.channelList.map(channels => <Option key={channels.id} value={channels.id}>{channels.name}</Option>)}
+              {/* always check if chennelList existed or not, otherwise undefined.map will throw error */}
+              {channelStore.channelList ? channelStore.channelList.map(channels => <Option key={channels.id} value={channels.id}>{channels.name}</Option>):null}
             </Select>
           </Form.Item>
 

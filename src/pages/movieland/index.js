@@ -37,8 +37,9 @@ function MovieLand () {
           onClick={() => searchMovies(searchTerm)} />
 
       </div>
+      {/* always check if movies existed, consider the case search on a movie name like djsjjjs doesn't exist. undefined.length will throw error */}
       {
-        movies.length > 0
+        movies
           ? (
             <div className='container'>
               {movies.map(movie => (
