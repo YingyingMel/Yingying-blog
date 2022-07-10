@@ -20,7 +20,8 @@ const Article = lazy(() => import('@/pages/article'))
 const Publish = lazy(() => import('@/pages/publish'))
 const ToDoList = lazy(() => import('@/pages/todolist'))
 const MovieLand = lazy(() => import('@/pages/movieland'))
-//const About = lazy(() => import('@/pages/about'))
+const ShoppingCart = lazy(() => import('@/pages/shoppingcart'))
+// const About = lazy(() => import('@/pages/about'))
 
 
 function App () {
@@ -52,6 +53,7 @@ function App () {
               <Route path='/publish' element={<Publish />}></Route>
               <Route path='/todolist' element={<ToDoList />}></Route>
               <Route path='/movieland' element={<MovieLand />}></Route>
+              <Route path='/shoppingcart' element={<ShoppingCart />}></Route>
               {/* <Route path='/about' element={<About />}></Route> */}
             </Route>
             <Route path='/login' element={<Login />}></Route>

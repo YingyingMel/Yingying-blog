@@ -1,0 +1,69 @@
+.shoppingCart {
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    a {
+      font-size: 1rem;
+    }
+  }
+
+  .block {
+    background-color: #e0e0e0;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    font-size: 1rem;
+  }
+  .col-1 {
+    flex: 1;
+  }
+  .col-2 {
+    flex: 2;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .text-right {
+    text-align: right;
+  }
+  .small {
+    max-height: 8rem;
+  }
+  button {
+    font-size: 0.8rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    background-color: #1890ff;
+    cursor: pointer;
+    color: #fff;
+    margin: 0.1rem;
+  }
+  button.add {
+    background-color: #1890ff;
+    width: 1.5rem;
+  }
+  button.remove {
+    background-color: red;
+    width: 1.5rem;
+  }
+  button.badge {
+    width: 1.5rem;
+  }
+  .item {
+    margin: 0.5rem;
+  }
+  .filling-empty-space {
+    width: 13rem;
+  }
+}
